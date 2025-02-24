@@ -1,9 +1,9 @@
 eli5==0.13.0
-matplotlib==3.10.0
-numpy==2.2.3
-pandas==2.2.3
-scikit-learn==1.6.1
+matplotlib==3.7.1
+numpy==1.24.2
+pandas==1.5.3
+scikit_learn==1.4.0
 scipy==1.15.2
 seaborn==0.13.2
-streamlit==1.42.2
-tsfresh==0.21.0
+streamlit==1.30.0
+tsfresh==0.20.3
