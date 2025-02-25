@@ -15,9 +15,9 @@ from scipy.stats import pearsonr
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 
 from itertools import combinations
-from tsfresh import extract_features
-from tsfresh import select_features
-from tsfresh.utilities.dataframe_functions import impute
+# from tsfresh import extract_features
+# from tsfresh import select_features
+# from tsfresh.utilities.dataframe_functions import impute
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import r2_score, mean_squared_error, confusion_matrix
@@ -829,6 +829,7 @@ if __name__ == '__main__':
                         st.warning("没有足够的数值型数据进行聚类分析。")
 
                 # 步骤5：特征生成
+                """
                 st.subheader("步骤5:特征生成")
 
                 col1, col2 = st.columns(2)
@@ -1718,7 +1719,7 @@ if __name__ == '__main__':
                                                                                                                    :10] + ')' + "特征筛选报告(训练集+测试集).xlsx"),
                                                               index=False)
                         st.success("ECS特征生成和选择已完成!")
-
+                """
                 # 步骤6:特征选择
                 st.subheader("步骤6:特征选择")
                 df, df_copy, y=data_read_and_process()
