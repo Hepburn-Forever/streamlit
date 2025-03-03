@@ -43,9 +43,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Mac OS
-plt.rcParams['font.sans-serif'] = 'Songti Sc'
+# plt.rcParams['font.sans-serif'] = 'Songti Sc'
 plt.rcParams['axes.unicode_minus'] = False
 
+plt.rcParams['font.sans-serif'] = ['SimHei']
 # 设置页面标题
 st.title('特征工程实现流程')
 
