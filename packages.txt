@@ -2,3 +2,4 @@ fonts-noto-core
 fonts-noto-cjk
 fonts-noto-cjk-extra
 fonts-wqy-zenhei
+apt-utils
