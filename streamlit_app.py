@@ -63,7 +63,8 @@ st.title('特征工程实现流程')
 #     # MacOS
 #     plt.rcParams['font.sans-serif'] = 'Songti Sc'
 
-plt.rcParams['font.sans-serif'] = ['SimHei']
+# plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['font.sans-serif'] = 'Songti Sc'
 plt.rcParams['axes.unicode_minus'] = False
 
 # 配置logging模块
@@ -765,6 +766,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                             ax_trend.set_title(f'({col})的趋势图')
                             ax_trend.set_xlabel('日期')
                             ax_trend.set_ylabel(f'{col}')
+                            ax_trend.set_xticklabels(ax_trend.get_xticklabels(), rotation=30)
                             trend_plot_path = os.path.join(result_folder, '可视化结果', f'{device_name}_可视化结果',
                                                            subfolders['trend_dir'])
                             img_buffer = BytesIO()
