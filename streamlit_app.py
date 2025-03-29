@@ -65,9 +65,10 @@ st.title('特征工程实现流程')
 
 # plt.rcParams['font.sans-serif'] = ['SimHei']
 # plt.rcParams['font.sans-serif'] = 'Songti Sc'
-plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC']
+# plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC']
+plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
 plt.rcParams['axes.unicode_minus'] = False
-
+sns.set(font='WenQuanYi Zen Hei')
 # 配置logging模块
 logging.basicConfig(
     level=logging.INFO,  # 设置日志级别为INFO
