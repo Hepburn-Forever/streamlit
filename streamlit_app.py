@@ -54,9 +54,10 @@ import platform
 # plt.rcParams['font.sans-serif'] = ['SimHei']
 # plt.rcParams['font.sans-serif'] = 'Songti Sc'
 # plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC']
-plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
+# plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
+plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
-sns.set(font='WenQuanYi Zen Hei')
+sns.set(font='SimHei')
 import warnings
 
 warnings.filterwarnings('ignore')
