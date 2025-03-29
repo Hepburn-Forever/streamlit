@@ -55,14 +55,15 @@ st.set_page_config(
 )
 st.title('特征工程实现流程')
 
-system = platform.system()
-if system == 'Windows':
-    # Windows
-    plt.rcParams['font.sans-serif'] = ['SimHei']
-elif system == 'Darwin':
-    # MacOS
-    plt.rcParams['font.sans-serif'] = 'Songti Sc'
+# system = platform.system()
+# if system == 'Windows':
+#     # Windows
+#     plt.rcParams['font.sans-serif'] = ['SimHei']
+# elif system == 'Darwin':
+#     # MacOS
+#     plt.rcParams['font.sans-serif'] = 'Songti Sc'
 
+plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
 # 配置logging模块
