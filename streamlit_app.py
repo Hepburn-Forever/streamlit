@@ -63,8 +63,8 @@ st.title('特征工程实现流程')
 #     # MacOS
 #     plt.rcParams['font.sans-serif'] = 'Songti Sc'
 
-# plt.rcParams['font.sans-serif'] = ['SimHei']
-plt.rcParams['font.sans-serif'] = 'Songti Sc'
+plt.rcParams['font.sans-serif'] = ['SimHei']
+# plt.rcParams['font.sans-serif'] = 'Songti Sc'
 plt.rcParams['axes.unicode_minus'] = False
 
 # 配置logging模块
