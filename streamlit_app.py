@@ -767,9 +767,11 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                         for index, col in enumerate(df_plot.columns):
                             fig_trend, ax_trend = plt.subplots()
                             ax_trend.plot(pd.to_datetime(df[date_col]), df_plot[col])
-                            ax_trend.set_title(f'({col})的趋势图')
-                            ax_trend.set_xlabel('日期')
+                            ax_trend.set_title('aaaaaaaaaaaaaaa')
+                            # ax_trend.set_title(f'({col})的趋势图')
                             ax_trend.set_ylabel(f'{col}')
+                            ax_trend.set_xlabel('date')
+                            ax_trend.set_ylabel('bbbbbbbbbbb')
                             ax_trend.set_xticklabels(ax_trend.get_xticklabels(), rotation=30)
                             trend_plot_path = os.path.join(result_folder, '可视化结果', f'{device_name}_可视化结果',
                                                            subfolders['trend_dir'])
