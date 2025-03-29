@@ -311,11 +311,20 @@ def feature_selection_variance(df_generated_copy, df_noNA, result_folder, subfol
     output_std_df.columns = ['标准差', '特征名称']
 
     # 特征选择filter-方差选择法，选择的特征和衡量特征的指标保存为文件
-    X_selected_filter_std.to_excel(os.path.join(result_folder, subfolders['filter_variance_selection_folder'],
-                                                '选择的特征-filter-方差选择法.xlsx'))
-    output_std_df.to_excel(os.path.join(result_folder, subfolders['filter_variance_selection_folder'],
-                                        '选择的特征的衡量指标-filter-方差选择法.xlsx'))
-    st.success("方差选择法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_filter_std.to_excel(excel_buffer, index=False)
+        output_std_df.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-filter-方差选择法.xlsx', excel_buffer.getvalue())
+        zip_file.writestr(f'选择的特征的衡量指标-filter-方差选择法.xlsx', excel_buffer.getvalue())
+    st.download_button(
+        label=f"下载(方差选择法结果)",
+        data=zip_buffer.getvalue(),
+        file_name=f'方差选择法结果.zip',
+        mime='application/zip'
+    )
+    # st.success("方差选择法已完成!")
 
 
 def feature_selection_chi2_test(df_generated_copy, df_MinMax, y, result_folder, subfolders):
@@ -344,11 +353,20 @@ def feature_selection_chi2_test(df_generated_copy, df_MinMax, y, result_folder, 
                                   'P-Value': chi2_selector.pvalues_[chi2_selector.get_support(indices=True)]})
 
     # 特征选择filter-卡方检验，选择的特征和衡量特征的指标保存为文件
-    X_selected_filter_chi.to_excel(
-        os.path.join(result_folder, subfolders['filter_chi2_estimator_folder'], '选择的特征-filter-卡方检验.xlsx'))
-    output_chi_df.to_excel(os.path.join(result_folder, subfolders['filter_chi2_estimator_folder'],
-                                        '选择的特征的衡量指标-filter-卡方检验.xlsx'))
-    st.success("卡方检验法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_filter_chi.to_excel(excel_buffer, index=False)
+        output_chi_df.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-filter-卡方检验.xlsx', excel_buffer.getvalue())
+        zip_file.writestr(f'选择的特征的衡量指标-filter-卡方检验.xls', excel_buffer.getvalue())
+    st.download_button(
+        label=f"下载(卡方检验法结果)",
+        data=zip_buffer.getvalue(),
+        file_name=f'卡方检验法结果.zip',
+        mime='application/zip'
+    )
+    # st.success("卡方检验法已完成!")
 
 
 def feature_selection_correlation_coefficient(df_generated_copy, y, result_folder, subfolders):
@@ -377,12 +395,20 @@ def feature_selection_correlation_coefficient(df_generated_copy, y, result_folde
     X_selected_filter_correlation = df_generated_copy[selected_features]
 
     # 特征选择filter-相关系数法，选择的特征和衡量特征的指标保存为文件
-    X_selected_filter_correlation.to_excel(
-        os.path.join(result_folder, subfolders['filter_correlation_coefficient_folder'],
-                     '选择的特征-filter-相关系数法.xlsx'))
-    output_correlation_df.to_excel(os.path.join(result_folder, subfolders['filter_correlation_coefficient_folder'],
-                                                '选择的特征的衡量指标-filter-相关系数法.xlsx'))
-    st.success("相关系数法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_filter_correlation.to_excel(excel_buffer, index=False)
+        output_correlation_df.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-filter-相关系数法.xlsx', excel_buffer.getvalue())
+        zip_file.writestr(f'选择的特征的衡量指标-filter-相关系数法.xlsx', excel_buffer.getvalue())
+    st.download_button(
+        label=f"下载(相关系数法结果)",
+        data=zip_buffer.getvalue(),
+        file_name=f'相关系数法结果.zip',
+        mime='application/zip'
+    )
+    # st.success("相关系数法已完成!")
 
 
 def feature_selection_RFE(df_generated_copy, df_noNA, y, result_folder, subfolders):
@@ -421,22 +447,38 @@ def feature_selection_RFE(df_generated_copy, df_noNA, y, result_folder, subfolde
     output_wrapper_rfe_all = output_wrapper_rfe_all.sort_values(by='Ranking')
 
     # 特征选择wrapper-RFE，选择的特征和衡量特征的指标保存为文件
-    X_selected_wrapper_rfe.to_excel(
-        os.path.join(result_folder, subfolders['filter_RFE_folder'], '选择的特征-wrapper-RFE.xlsx'))
-    output_wrapper_rfe_selected.to_excel(
-        os.path.join(result_folder, subfolders['filter_RFE_folder'], '选择的特征的衡量指标-wrapper-RFE.xlsx'))
-    output_wrapper_rfe_all.to_excel(
-        os.path.join(result_folder, subfolders['filter_RFE_folder'], '全部特征的衡量指标-wrapper-RFE.xlsx'))
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_wrapper_rfe.to_excel(excel_buffer, index=False)
+        output_wrapper_rfe_selected.to_excel(excel_buffer, index=False)
+        output_wrapper_rfe_all.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-wrapper-RFE.xlsx', excel_buffer.getvalue())
+        zip_file.writestr(f'选择的特征的衡量指标-wrapper-RFE.xlsx', excel_buffer.getvalue())
+        zip_file.writestr(f'全部特征的衡量指标-wrapper-RFE.xlsx', excel_buffer.getvalue())
 
-    # 特征选择wrapper-RFE，选择的特征的ranking可视化
-    plt.figure(figsize=(10, 15))
-    sns.barplot(x='feature', y='ranking', data=output_wrapper_rfe_selected)
-    plt.xticks(rotation=90)
-    plt.title('Feature Ranking')
-    plt.xlabel('Ranking')
-    plt.ylabel('Feature')
-    plt.savefig(os.path.join(result_folder, subfolders['filter_RFE_folder'], '特征可视化-wrapper-RFE.jpg'))
-    st.success("RFE方法已完成!")
+
+        # 特征选择wrapper-RFE，选择的特征的ranking可视化
+        plt.figure(figsize=(10, 15))
+        sns.barplot(x='feature', y='ranking', data=output_wrapper_rfe_selected)
+        plt.xticks(rotation=90)
+        plt.title('Feature Ranking')
+        plt.xlabel('Ranking')
+        plt.ylabel('Feature')
+        img_buffer = BytesIO()
+        plt.savefig(img_buffer, format='png', dpi=300)
+        # 将图片写入zip文件
+        zip_file.writestr('特征可视化-wrapper-RFE.jpg', img_buffer.getvalue())
+        plt.close()
+    zip_buffer.seek(0)
+    st.download_button(
+        label=f"下载(RFE递归特征消除法结果)",
+        data=zip_buffer.getvalue(),
+        file_name=f'RFE递归特征消除法结果.zip',
+        mime='application/zip'
+    )
+
+    # st.success("RFE方法已完成!")
 
 
 def feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y, result_folder, subfolders):
@@ -456,9 +498,21 @@ def feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y, result
                                                       penalty_selector_L1.get_support(indices=True)])
 
     # 特征选择embedded-基于惩罚项的特征选择法，L1选择的特征保存为文件
-    X_selected_embedded_penalty_L1.to_excel(
-        os.path.join(result_folder, subfolders['filter_based_on_L1_folder'], '选择的特征-embedded-penalty_L1.xlsx'))
-    st.success("基于L1的embedded特征选择方法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_embedded_penalty_L1.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-embedded-penalty_L1.xlsx', excel_buffer.getvalue())
+
+    zip_buffer.seek(0)
+    st.download_button(
+        label=f"下载(基于L1惩罚项的特征选择法)结果",
+        data=zip_buffer.getvalue(),
+        file_name=f'基于L1惩罚项的特征选择法结果.zip',
+        mime='application/zip'
+    )
+
+    # st.success("基于L1的embedded特征选择方法已完成!")
 
 
 def feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y, result_folder, subfolders):
@@ -476,9 +530,20 @@ def feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y, resu
         penalty_selector_L1L2.get_support(indices=True)])
 
     # 特征选择embedded-基于惩罚项的特征选择法，L1L2选择的特征保存为文件
-    X_selected_embedded_penalty_L1L2.to_excel(os.path.join(result_folder, subfolders['filter_based_on_L1L2_folder'],
-                                                           '选择的特征-embedded-penalty_L1和L2.xlsx'))
-    st.success("基于L1和L2的embedded特征选择方法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_embedded_penalty_L1L2.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-embedded-penalty_L1和L2.xlsx', excel_buffer.getvalue())
+
+    zip_buffer.seek(0)
+    st.download_button(
+        label=f"下载(结合L1和L2惩罚项的特征选择法)结果",
+        data=zip_buffer.getvalue(),
+        file_name=f'结合L1和L2惩罚项的特征选择法结果.zip',
+        mime='application/zip')
+
+    # st.success("基于L1和L2的embedded特征选择方法已完成!")
 
 
 def feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y, result_folder, subfolders):
@@ -494,9 +559,20 @@ def feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y, re
                                   columns=df_generated_copy.columns[lsvc_model.get_support(indices=True)])
 
     # 特征选择SVM和penalty_L1，选择的特征保存为文件
-    X_selected_svm.to_excel(
-        os.path.join(result_folder, subfolders['filter_based_on_SVM_L1_folder'], '选择的特征-SVM和penalty_L1.xlsx'))
-    st.success("基于L1和SVM的embedded特征选择方法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_svm.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-SVM和penalty_L1.xlsx', excel_buffer.getvalue())
+
+    zip_buffer.seek(0)
+    st.download_button(
+        label=f"下载(结合SVM和L1惩罚项的特征选择)结果",
+        data=zip_buffer.getvalue(),
+        file_name=f'结合SVM和L1惩罚项的特征选择.zip',
+        mime='application/zip')
+
+    # st.success("基于L1和SVM的embedded特征选择方法已完成!")
 
 
 def feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y, result_folder, subfolders):
@@ -512,9 +588,20 @@ def feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y, resu
                                             columns=df_generated_copy.columns[gbdt_selector.get_support(indices=True)])
 
     # 特征选择embedded-GBDT，选择的特征保存为文件
-    X_selected_embedded_gbdt.to_excel(
-        os.path.join(result_folder, subfolders['filter_base_on_GBDT_folder'], '选择的特征-embedded-GBDT.xlsx'))
-    st.success("基于GBDT的embedded特征选择方法已完成!")
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        X_selected_embedded_gbdt.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'选择的特征-embedded-GBDT.xlsx', excel_buffer.getvalue())
+
+    zip_buffer.seek(0)
+    st.download_button(
+        label=f"下载(基于GBDT模型的特征选择法)结果",
+        data=zip_buffer.getvalue(),
+        file_name=f'基于GBDT模型的特征选择法结果.zip',
+        mime='application/zip')
+
+    # st.success("基于GBDT的embedded特征选择方法已完成!")
 
 
 def feature_selection_embedded_based_on_Lasso(df_generated_copy, y, result_folder, subfolders):
@@ -545,9 +632,6 @@ def feature_selection_embedded_based_on_Lasso(df_generated_copy, y, result_folde
 
     # 输出每个特征的系数
     output_lasso_coef = pd.DataFrame({'Feature': X_train.columns, 'coefficient': lasso_selector.coef_.tolist()})
-    output_lasso_coef.to_excel(
-        os.path.join(result_folder, subfolders['filter_based_on_Lasso_folder'], '全部特征的系数-lasso.xlsx'))
-
     # 固定alpha，训练Lasso模型，展示每个特征的预测R2
     alpha = 0.1
     lasso_fix_alpha = Lasso(alpha=alpha)
@@ -556,8 +640,24 @@ def feature_selection_embedded_based_on_Lasso(df_generated_copy, y, result_folde
 
     plt.plot(lasso_fix_alpha.coef_, color='gold', linewidth=2, label='Lasso coefficients')
     plt.title(f"Lasso R^2: {r2_score_lasso_fix_alpha}")
-    plt.savefig(os.path.join(result_folder, subfolders['filter_based_on_Lasso_folder'], 'lasso_coefficients.png'))
-    st.success("基于LASSO的embedded特征选择方法已完成!")
+
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        excel_buffer = io.BytesIO()
+        output_lasso_coef.to_excel(excel_buffer, index=False)
+        zip_file.writestr(f'全部特征的系数-lasso.xlsx', excel_buffer.getvalue())
+        img_buffer = BytesIO()
+        plt.savefig(img_buffer, format='png', dpi=300)
+        # 将图片写入zip文件
+        zip_file.writestr('lasso_coefficients.png', img_buffer.getvalue())
+    zip_buffer.seek(0)
+    st.download_button(
+        label=f"下载(基于LASSO的特征选择)结果",
+        data=zip_buffer.getvalue(),
+        file_name=f'基于LASSO特征选择结果.zip',
+        mime='application/zip')
+
+    # st.success("基于LASSO的embedded特征选择方法已完成!")
 
 
 def feature_importance_estimate(df_generated_copy, df_noNA, y, result_folder, subfolders):
@@ -804,6 +904,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                             ax_scatter.set_title(f'{col}的散点图')
                             ax_scatter.set_xlabel('日期')
                             ax_scatter.set_ylabel(f'{col}')
+                            ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation=30)
                             img_buffer = BytesIO()
                             fig_scatter.savefig(img_buffer, format='png', dpi=300)
                             img_buffer.seek(0)
@@ -841,6 +942,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                             ax_hist.set_title(f'{col}的直方图')
                             ax_hist.set_xlabel(f'{col}')
                             ax_hist.set_ylabel('频率')
+                            ax_hist.set_xticklabels(ax_hist.get_xticklabels(), rotation=30)
                             ax_hist.grid(True)
 
                             img_buffer = BytesIO()
@@ -877,6 +979,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                             ax_box.set_title(f'{col}的箱型图')
                             ax_box.set_xlabel(f'变量{col}')
                             ax_box.set_ylabel('值')
+                            ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation=30)
                             ax_box.grid(True)
                             img_buffer = BytesIO()
                             fig_box.savefig(img_buffer, format='png', dpi=300)
@@ -907,28 +1010,31 @@ def step_three_data_filter(read_data_list, result_folder):
             ("箱型图过滤", "3-Sigma过滤", "移动平均过滤"),
         )
         # 应用过滤方法
-        for data_index, data_item in enumerate(read_data_list):
-            device_name, df = data_item
-            filtered_df = filter_data(df, filter_method)
-            filtered_data_list.append((device_name, filtered_df))
-            # 不需要过滤和聚类的列
-            date_col = df.filter(like='时间').columns[0]
-            device_col = df.filter(like='设备').columns[0]
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for data_index, data_item in enumerate(read_data_list):
+                device_name, df = data_item
+                filtered_df = filter_data(df, filter_method)
+                filtered_data_list.append((device_name, filtered_df))
+                # 不需要过滤和聚类的列
+                date_col = df.filter(like='时间').columns[0]
+                device_col = df.filter(like='设备').columns[0]
 
-            remaining_columns = [col for col in df.columns if col not in [date_col, device_col]]
-            exclusive_columns = [col for col in df.columns if '时间' in col or '编码' in col]
+                remaining_columns = [col for col in df.columns if col not in [date_col, device_col]]
+                exclusive_columns = [col for col in df.columns if '时间' in col or '编码' in col]
 
-            # 保存过滤后的数据
-            filtered_folder = filter_method.replace(" ", "_").lower()
-            filtered_path = os.path.join(result_folder, '过滤结果', f'{device_name}_过滤结果', filtered_folder)
-            os.makedirs(filtered_path, exist_ok=True)
-            file_path = os.path.join(filtered_path, f"{device_name}({filtered_folder}结果).xlsx")
-            if not filtered_df.empty:
-                filtered_df.to_excel(file_path, index=False)
-                st.success(
-                    f"过滤后的数据(行数:{filtered_df.shape[0]},数据列数:{filtered_df.shape[1]}),结果已保存到目录:'{file_path}'")
-            else:
-                st.warning(f"结果未保存到:{file_path}")
+                # 保存过滤后的数据
+                filtered_folder = filter_method.replace(" ", "_").lower()
+                excel_buffer = io.BytesIO()
+                filtered_df.to_excel(excel_buffer, index=False)
+                zip_file.writestr(f'{device_name}({filter_method}结果).xlsx', excel_buffer.getvalue())
+        st.download_button(
+            label=f"下载({filter_method}结果)",
+            data=zip_buffer.getvalue(),
+            file_name=f'{filter_method}结果.zip',
+            mime='application/zip'
+        )
+
     return filtered_data_list
 
 
@@ -953,44 +1059,52 @@ def step_four_condition_split(read_data_list, filtered_data_list, result_folder,
                 if len(remaining_columns) > 0:
                     # 选择聚类数目
                     num_clusters = st.slider("选择kmeans聚类数量", 2, 6, 2, key=f'{device_name}_聚类')
+                    zip_buffer = io.BytesIO()
+                    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                        # KMeans聚类
+                        for cluster_index, column in enumerate(remaining_columns):
+                            df_cluster_date = df[['信号时间', column]]  # 选择一列
+                            df_cluster = df[[column]]  # 选择一列
+                            cluster_data = df_cluster.values.reshape(-1, 1)  # 转为array
+                            kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+                            df_cluster_date['Cluster'] = kmeans.fit_predict(cluster_data)
 
-                    # KMeans聚类
-                    for cluster_index, column in enumerate(remaining_columns):
-                        df_cluster_date = df[['信号时间', column]]  # 选择一列
-                        df_cluster = df[[column]]  # 选择一列
-                        cluster_data = df_cluster.values.reshape(-1, 1)  # 转为array
-                        kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-                        df_cluster_date['Cluster'] = kmeans.fit_predict(cluster_data)
+                            # 可视化聚类结果
+                            fig_cluster, ax_cluster = plt.subplots()
+                            plt.title(f'{column}')
+                            plt.xlabel('time')
+                            plt.ylabel('variable')
+                            sns.scatterplot(data=df_cluster_date,
+                                            x=pd.to_datetime(df_cluster_date['信号时间']),
+                                            y=f'{column}',
+                                            hue='Cluster',
+                                            palette='tab10',
+                                            ax=ax_cluster
+                                            )
 
-                        # 可视化聚类结果
-                        fig_cluster, ax_cluster = plt.subplots()
-                        plt.title(f'{column}')
-                        plt.xlabel('time')
-                        plt.ylabel('variable')
-                        sns.scatterplot(data=df_cluster_date,
-                                        x=pd.to_datetime(df_cluster_date['信号时间']),
-                                        y=f'{column}',
-                                        hue='Cluster',
-                                        palette='tab10',
-                                        ax=ax_cluster
-                                        )
-                        # 将聚类结果保存到文件
-                        clustered_file_path = os.path.join(result_folder, subfolders['cluster_dir'], 'Kmeans聚类结果',
-                                                           f'{device_name}_聚类结果')
-                        os.makedirs(clustered_file_path, exist_ok=True)
-                        image_file = os.path.join(clustered_file_path, column + '.png')
-                        plt.xticks(rotation=30)
-                        plt.legend(loc='best')
-                        plt.savefig(image_file, dpi=300)
-                        plt.close()
+                            plt.xticks(rotation=30)
+                            plt.legend(loc='best')
+                            img_buffer = BytesIO()
+                            plt.savefig(img_buffer, format='png', dpi=300)
+                            img_buffer.seek(0)
+                            # 将图片写入zip文件
+                            zip_file.writestr(f'{column}(聚类结果).png', img_buffer.getvalue())
+                            plt.close()
 
-                        if index == 0 and cluster_index == 0:
-                            # 显示聚类结果
-                            st.subheader(f'聚类结果 (K={num_clusters})')
-                            st.pyplot(fig_cluster)
+                            if cluster_index == 0:
+                                # 显示聚类结果
+                                st.subheader(f'聚类结果 (K={num_clusters})')
+                                st.pyplot(fig_cluster)
+                    zip_buffer.seek(0)
+                    st.download_button(
+                        label=f"下载{device_name}Kmeans聚类结果",
+                        data=zip_buffer,
+                        file_name=f"{device_name}Kmeans聚类结果.zip",
+                        mime="application/zip"
+                    )
                 else:
                     st.warning("没有足够的数值型数据进行聚类分析。")
-            st.success(f'kmeans聚类已完成!')
+            st.success(f'Kmeans聚类已完成!')
     with linkage_col:
         if st.checkbox('层次聚类', key='linkage_cluster'):
             cluster_data = filtered_data_list if len(filtered_data_list) != 0 else read_data_list
@@ -1009,38 +1123,47 @@ def step_four_condition_split(read_data_list, filtered_data_list, result_folder,
                 device_code = '设备编码'
                 columns = [item for item in columns if item != value and item != device_code]
 
-                # 聚类
-                linkage_cluster_path = os.path.join(result_folder, subfolders['cluster_dir'], '层次聚类结果',
-                                                    device_name + '聚类图')
-                os.makedirs(linkage_cluster_path, exist_ok=True)
-                fig = plt.figure()
-                for column in columns:
-                    df_2col = real_data[['信号时间', column]]  # 选择一列
-                    df_1col = real_data[[column]]  # 选择一列
-                    real_data_x = df_1col.values.reshape(-1, 1)  # 转为array
+                zip_buffer = io.BytesIO()
+                with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                    for column in columns:
+                        df_2col = real_data[['信号时间', column]]  # 选择一列
+                        df_1col = real_data[[column]]  # 选择一列
+                        real_data_x = df_1col.values.reshape(-1, 1)  # 转为array
 
-                    # 计算层次聚类的链接矩阵
-                    Z = linkage(real_data_x, method='ward')
+                        # 计算层次聚类的链接矩阵
+                        Z = linkage(real_data_x, method='ward')
 
-                    # 根据距离阈值提取簇
-                    max_d = 50  # 距离阈值
-                    clusters = fcluster(Z, max_d, criterion='distance')
+                        # 根据距离阈值提取簇
+                        max_d = 50  # 距离阈值
+                        clusters = fcluster(Z, max_d, criterion='distance')
 
-                    # 可视化聚类结果
-                    plt.figure()
-                    plt.title(f'{column}')
-                    plt.xlabel('time')
-                    plt.ylabel('variable')
-                    plt.scatter(pd.to_datetime(df_2col['信号时间']),
-                                real_data_x[:, 0],
-                                c=clusters,
-                                cmap='viridis',
-                                marker='o',
-                                edgecolor='k', s=100)
-                    image_file = os.path.join(linkage_cluster_path, column + '.png')
-                    plt.xticks(rotation=30)
-                    plt.savefig(image_file, dpi=300)
-                    plt.close()
+                        # 可视化聚类结果
+                        plt.figure()
+                        plt.title(f'{column}')
+                        plt.xlabel('time')
+                        plt.ylabel('variable')
+                        plt.scatter(pd.to_datetime(df_2col['信号时间']),
+                                    real_data_x[:, 0],
+                                    c=clusters,
+                                    cmap='viridis',
+                                    marker='o',
+                                    edgecolor='k', s=100)
+                        plt.xticks(rotation=30)
+                        img_buffer = BytesIO()
+                        plt.savefig(img_buffer, format='png', dpi=300)
+                        img_buffer.seek(0)
+                        # 将图片写入zip文件
+                        zip_file.writestr(f'{column}(聚类结果).png', img_buffer.getvalue())
+
+                        plt.close()
+
+                zip_buffer.seek(0)
+                st.download_button(
+                    label=f"下载{device_name}层次聚类结果",
+                    data=zip_buffer,
+                    file_name=f"{device_name}层次聚类结果.zip",
+                    mime="application/zip"
+                )
             st.success(f'层次聚类已完成!')
 
 
