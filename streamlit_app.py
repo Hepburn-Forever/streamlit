@@ -43,25 +43,8 @@ from sklearn.ensemble import ExtraTreesClassifier
 # import eli5  # 解释机器学习模型和预测结果的库
 # from eli5.sklearn import PermutationImportance
 import platform
-# system = platform.system()
-# if system == 'Windows':
-#     # Windows
-#     plt.rcParams['font.sans-serif'] = ['SimHei']
-# elif system == 'Darwin':
-#     # MacOS
-#     plt.rcParams['font.sans-serif'] = 'Songti Sc'
-
-# plt.rcParams['font.sans-serif'] = ['SimHei']
-# plt.rcParams['font.sans-serif'] = 'Songti Sc'
-import matplotlib.font_manager as fm
-fm._rebuild()
-plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC']
-# sns.set(font='Noto Sans CJK SC')
-# plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
-# plt.rcParams['font.sans-serif'] = ['SimHei']
-plt.rcParams['axes.unicode_minus'] = False
-# sns.set(font='SimHei')
 import warnings
+import matplotlib.font_manager as fm
 
 warnings.filterwarnings('ignore')
 
@@ -73,7 +56,22 @@ st.set_page_config(
 )
 st.title('特征工程实现流程')
 
+# system = platform.system()
+# if system == 'Windows':
+#     # Windows
+#     plt.rcParams['font.sans-serif'] = ['SimHei']
+# elif system == 'Darwin':
+#     # MacOS
+#     plt.rcParams['font.sans-serif'] = 'Songti Sc'
 
+# plt.rcParams['font.sans-serif'] = ['SimHei']
+# plt.rcParams['font.sans-serif'] = 'Songti Sc'
+
+plt.rcParams['font.sans-serif'] = ['Noto Sans CJK SC']
+# plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
+plt.rcParams['axes.unicode_minus'] = False
+
+# sns.set(font='WenQuanYi Zen Hei')
 # 配置logging模块
 logging.basicConfig(
     level=logging.INFO,  # 设置日志级别为INFO
@@ -770,11 +768,9 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                         for index, col in enumerate(df_plot.columns):
                             fig_trend, ax_trend = plt.subplots()
                             ax_trend.plot(pd.to_datetime(df[date_col]), df_plot[col])
-
                             ax_trend.set_title(f'({col})的趋势图')
-                            ax_trend.set_ylabel(f'{col}')
                             ax_trend.set_xlabel('日期')
-
+                            ax_trend.set_ylabel(f'{col}')
                             ax_trend.set_xticklabels(ax_trend.get_xticklabels(), rotation=30)
                             trend_plot_path = os.path.join(result_folder, '可视化结果', f'{device_name}_可视化结果',
                                                            subfolders['trend_dir'])
@@ -902,6 +898,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                         mime="application/zip"
 
                     )
+
 
 def step_three_data_filter(read_data_list, result_folder):
     # 第三步：数据过滤
@@ -1877,6 +1874,7 @@ def main():
     create_sidebar()
 
     # 步骤1: 上传文件
+    st.write(fm.findSystemFonts())
     read_result = step_one_data_uploader()
 
     read_data_list, data = read_result  # read_data_list是_格式化特征集，data是人工标记故障时间数据
