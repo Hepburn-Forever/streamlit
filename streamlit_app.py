@@ -43,18 +43,6 @@ from sklearn.ensemble import ExtraTreesClassifier
 # import eli5  # 解释机器学习模型和预测结果的库
 # from eli5.sklearn import PermutationImportance
 import platform
-import warnings
-
-warnings.filterwarnings('ignore')
-
-st.set_page_config(
-    page_title="StreamlitFeatureEngineer",
-    page_icon="🌟",
-    layout="wide",  # "centered" 或 "wide"，宽布局更现代
-    initial_sidebar_state="expanded"  # 侧边栏默认展开
-)
-st.title('特征工程实现流程')
-
 # system = platform.system()
 # if system == 'Windows':
 #     # Windows
@@ -69,6 +57,19 @@ st.title('特征工程实现流程')
 plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
 plt.rcParams['axes.unicode_minus'] = False
 sns.set(font='WenQuanYi Zen Hei')
+import warnings
+
+warnings.filterwarnings('ignore')
+
+st.set_page_config(
+    page_title="StreamlitFeatureEngineer",
+    page_icon="🌟",
+    layout="wide",  # "centered" 或 "wide"，宽布局更现代
+    initial_sidebar_state="expanded"  # 侧边栏默认展开
+)
+st.title('特征工程实现流程')
+
+
 # 配置logging模块
 logging.basicConfig(
     level=logging.INFO,  # 设置日志级别为INFO
