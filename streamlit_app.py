@@ -79,6 +79,7 @@ logging.basicConfig(
     ]
 )
 
+
 class LR(LogisticRegression):
     def __init__(self,
                  threshold=0.01,
@@ -289,7 +290,7 @@ def create_sidebar():
             st.markdown("- 6.9：LASSO")
 
 
-def feature_selection_variance(df_generated_copy, df_noNA, result_folder, subfolders):
+def feature_selection_variance(df_generated_copy, df_noNA):
     """
     特征选择-方差选择法
     :return:
@@ -327,7 +328,7 @@ def feature_selection_variance(df_generated_copy, df_noNA, result_folder, subfol
     # st.success("方差选择法已完成!")
 
 
-def feature_selection_chi2_test(df_generated_copy, df_MinMax, y, result_folder, subfolders):
+def feature_selection_chi2_test(df_generated_copy, df_MinMax, y):
     """
     特征选择-卡方检验
     # 特征选择filter-卡方检验，适用于离散变量，要求数值为正值，使用区间缩放后且填充过缺失值的数据
@@ -369,7 +370,7 @@ def feature_selection_chi2_test(df_generated_copy, df_MinMax, y, result_folder, 
     # st.success("卡方检验法已完成!")
 
 
-def feature_selection_correlation_coefficient(df_generated_copy, y, result_folder, subfolders):
+def feature_selection_correlation_coefficient(df_generated_copy, y):
     """
     特征选择filter-相关系数法
     特征选择filter-相关系数法，初始化一个字典来存储相关系数和p值
@@ -411,7 +412,7 @@ def feature_selection_correlation_coefficient(df_generated_copy, y, result_folde
     # st.success("相关系数法已完成!")
 
 
-def feature_selection_RFE(df_generated_copy, df_noNA, y, result_folder, subfolders):
+def feature_selection_RFE(df_generated_copy, df_noNA, y):
     """
     特征选择wrapper-RFE递归特征消除法
     :return:
@@ -457,7 +458,6 @@ def feature_selection_RFE(df_generated_copy, df_noNA, y, result_folder, subfolde
         zip_file.writestr(f'选择的特征的衡量指标-wrapper-RFE.xlsx', excel_buffer.getvalue())
         zip_file.writestr(f'全部特征的衡量指标-wrapper-RFE.xlsx', excel_buffer.getvalue())
 
-
         # 特征选择wrapper-RFE，选择的特征的ranking可视化
         plt.figure(figsize=(10, 15))
         sns.barplot(x='feature', y='ranking', data=output_wrapper_rfe_selected)
@@ -481,7 +481,7 @@ def feature_selection_RFE(df_generated_copy, df_noNA, y, result_folder, subfolde
     # st.success("RFE方法已完成!")
 
 
-def feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y, result_folder, subfolders):
+def feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y):
     """
     基于L1惩罚项的特征选择法
     :return:
@@ -515,7 +515,7 @@ def feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y, result
     # st.success("基于L1的embedded特征选择方法已完成!")
 
 
-def feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y, result_folder, subfolders):
+def feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y):
     """
     基于L1和L2惩罚项的特征选择法
     :return:
@@ -546,7 +546,7 @@ def feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y, resu
     # st.success("基于L1和L2的embedded特征选择方法已完成!")
 
 
-def feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y, result_folder, subfolders):
+def feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y):
     """
     使用 feature_selection 库的 SelectFromModel 类结合 SVM 模型
     :return:
@@ -575,7 +575,7 @@ def feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y, re
     # st.success("基于L1和SVM的embedded特征选择方法已完成!")
 
 
-def feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y, result_folder, subfolders):
+def feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y):
     """
     特征选择embedded-基于树模型的特征选择法,树模型中GBDT也可用来作为基模型进行特征选择
     :return:
@@ -604,7 +604,7 @@ def feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y, resu
     # st.success("基于GBDT的embedded特征选择方法已完成!")
 
 
-def feature_selection_embedded_based_on_Lasso(df_generated_copy, y, result_folder, subfolders):
+def feature_selection_embedded_based_on_Lasso(df_generated_copy, y):
     """
     特征选择embedded-基于Lasso的特征选择法
     :return:
@@ -660,7 +660,7 @@ def feature_selection_embedded_based_on_Lasso(df_generated_copy, y, result_folde
     # st.success("基于LASSO的embedded特征选择方法已完成!")
 
 
-def feature_importance_estimate(df_generated_copy, df_noNA, y, result_folder, subfolders):
+def feature_importance_estimate(df_generated_copy, df_noNA, y):
     """
     特征重要性评估
     特征选择，排列重要性评估，展示重要性变化
@@ -712,8 +712,7 @@ def feature_importance_estimate(df_generated_copy, df_noNA, y, result_folder, su
         {'Feature': df_generated_copy.columns, 'importances_mean': importances})
 
     # 特征选择，排列重要性评估，每个特征的得分的平均值保存为文件
-    output_permutation_importances.to_excel(os.path.join(result_folder, subfolders['feature_importance_folder'],
-                                                         '选择的特征的衡量指标-排列重要性评估-多次排序的得分平均值.xlsx'))
+    output_permutation_importances.to_excel('选择的特征的衡量指标-排列重要性评估-多次排序的得分平均值.xlsx')
 
     # 画图，运行结果，重要性下降的越多，说明该特征越重要
     plt.figure(figsize=(20, 8))
@@ -721,8 +720,7 @@ def feature_importance_estimate(df_generated_copy, df_noNA, y, result_folder, su
     plt.title('Feature importances_mean', fontsize=20)
     plt.xlabel('importances_mean', fontsize=20)
     plt.ylabel('Feature', fontsize=3)
-    plt.savefig(
-        os.path.join(result_folder, subfolders['feature_importance_folder'], '排列重要性评估-多次排序的得分平均值.png'))
+    plt.savefig('排列重要性评估-多次排序的得分平均值.png')
 
     # 特征选择，重要性评估
     # 用极度随机树做模型，评估参数的重要性
@@ -734,8 +732,7 @@ def feature_importance_estimate(df_generated_copy, df_noNA, y, result_folder, su
     output_importances = output_importances.sort_values(by='importances', ascending=False).head(20)
 
     # 特征选择，每个特征的重要性保存为文件
-    output_importances.to_excel(
-        os.path.join(result_folder, subfolders['feature_importance_folder'], '选择的特征的衡量指标-重要性评估.xlsx'))
+    output_importances.to_excel('选择的特征的衡量指标-重要性评估.xlsx')
 
 
 def data_read_and_process(second_uploaded_file):
@@ -840,7 +837,7 @@ def step_one_data_uploader():
     return read_data_list, data
 
 
-def step_two_data_visualization(read_data_list, result_folder, subfolders):
+def step_two_data_visualization(read_data_list):
     # 第二步：数据分析和可视化
     st.subheader('步骤2:数据可视化')
     st.warning(
@@ -868,8 +865,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                             ax_trend.set_xlabel('日期')
                             ax_trend.set_ylabel(f'{col}')
                             ax_trend.set_xticklabels(ax_trend.get_xticklabels(), rotation=30)
-                            trend_plot_path = os.path.join(result_folder, '可视化结果', f'{device_name}_可视化结果',
-                                                           subfolders['trend_dir'])
+
                             img_buffer = BytesIO()
                             fig_trend.savefig(img_buffer, format='png', dpi=300)
                             img_buffer.seek(0)
@@ -999,7 +995,7 @@ def step_two_data_visualization(read_data_list, result_folder, subfolders):
                     )
 
 
-def step_three_data_filter(read_data_list, result_folder):
+def step_three_data_filter(read_data_list):
     # 第三步：数据过滤
     st.subheader("步骤3:数据清洗")
     # 保存过滤后的数据
@@ -1038,7 +1034,7 @@ def step_three_data_filter(read_data_list, result_folder):
     return filtered_data_list
 
 
-def step_four_condition_split(read_data_list, filtered_data_list, result_folder, subfolders):
+def step_four_condition_split(read_data_list, filtered_data_list):
     # 第四步：工况分割(使用聚类操作)
     st.subheader("步骤4:工况分割")
     kmeans_col, linkage_col = st.columns(2)
@@ -1106,7 +1102,8 @@ def step_four_condition_split(read_data_list, filtered_data_list, result_folder,
                     st.warning("没有足够的数值型数据进行聚类分析。")
             st.success(f'Kmeans聚类已完成!')
     with linkage_col:
-        if st.checkbox('层次聚类', key='linkage_cluster'):
+        linkage_cluster=st.checkbox('层次聚类', key='linkage_cluster')
+        if linkage_cluster:
             cluster_data = filtered_data_list if len(filtered_data_list) != 0 else read_data_list
             # 无监督学习，凝聚层次聚类
             for device_name, real_data in cluster_data:
@@ -1168,88 +1165,87 @@ def step_four_condition_split(read_data_list, filtered_data_list, result_folder,
 
 
 @calculate_runtime
-def step_five_feature_generate(read_data_list, filtered_data_list, data, result_folder, subfolder):
+def step_five_feature_generate(read_data_list, filtered_data_list, data):
     # 步骤5：特征生成
     st.subheader("步骤5:特征生成")
     col1, col2 = st.columns(2)
+
     with col1:
-        if st.checkbox('tsfresh方法', key='tsfresh'):
+        tsfresh=st.checkbox('tsfresh方法', key='tsfresh')
+        if tsfresh:
             record_result_all = []
             record_result_all2 = []
             record_result_all3 = []
 
             tsfresh_feature_generate_data = filtered_data_list if len(filtered_data_list) != 0 else read_data_list
-            for device_name, df in tsfresh_feature_generate_data:
-                # 对时间列格式化为datetime
-                time_columns = [col for col in data.columns if '时间' in col]
-                for col in time_columns:
-                    data[col] = pd.to_datetime(data[col])
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                for device_name, df in tsfresh_feature_generate_data:
+                    # 对时间列格式化为datetime
+                    time_columns = [col for col in data.columns if '时间' in col]
+                    for col in time_columns:
+                        data[col] = pd.to_datetime(data[col])
 
-                matching_rows = data[data['设备名称'] == device_name]
-                equip_info = matching_rows.reset_index(drop=True)  # 复制故障时间的记录，用于输出全部结果
-                if len(matching_rows) > 0:
-                    for times in range(len(matching_rows)):
-                        trouble_type = matching_rows['故障类型'].iloc[
-                            times]  # 改用本次循环匹配到的数据，获取故障类型的信息
-                        stamp_start = matching_rows['训练集开始时间'].iloc[times]
-                        stamp_end = matching_rows['训练集结束时间'].iloc[times]
-                        trouble_time = matching_rows['诊断报告发出的时间'].iloc[times]
-                        df['诊断报告发出的时间'] = trouble_time
+                    matching_rows = data[data['设备名称'] == device_name]
+                    equip_info = matching_rows.reset_index(drop=True)  # 复制故障时间的记录，用于输出全部结果
+                    if len(matching_rows) > 0:
+                        for times in range(len(matching_rows)):
+                            trouble_type = matching_rows['故障类型'].iloc[
+                                times]  # 改用本次循环匹配到的数据，获取故障类型的信息
+                            stamp_start = matching_rows['训练集开始时间'].iloc[times]
+                            stamp_end = matching_rows['训练集结束时间'].iloc[times]
+                            trouble_time = matching_rows['诊断报告发出的时间'].iloc[times]
+                            df['诊断报告发出的时间'] = trouble_time
 
-                        trouble_time_list = []
-                        datetime_start = ''
-                        datetime_end = ''
-                        for times1 in range(len(matching_rows)):
-                            if (matching_rows['故障类型'].iloc[times1] == trouble_type):
-                                datetime_start = matching_rows['故障开始时间'].iloc[times1]
-                                datetime_end = matching_rows['故障结束时间'].iloc[times1]
-                                trouble_time_list.append(
-                                    str(datetime_start) + ',' + str(datetime_end))
+                            trouble_time_list = []
+                            datetime_start = ''
+                            datetime_end = ''
+                            for times1 in range(len(matching_rows)):
+                                if (matching_rows['故障类型'].iloc[times1] == trouble_type):
+                                    datetime_start = matching_rows['故障开始时间'].iloc[times1]
+                                    datetime_end = matching_rows['故障结束时间'].iloc[times1]
+                                    trouble_time_list.append(
+                                        str(datetime_start) + ',' + str(datetime_end))
 
-                        # excel文档记录
-                        extracted_features = pd.DataFrame()
-                        features_filtered = pd.DataFrame()
-                        record_result = pd.DataFrame()
-                        data_nodup = pd.DataFrame()
-                        data_nodup_merge = pd.DataFrame()
+                            # excel文档记录
+                            extracted_features = pd.DataFrame()
+                            features_filtered = pd.DataFrame()
+                            record_result = pd.DataFrame()
+                            data_nodup = pd.DataFrame()
+                            data_nodup_merge = pd.DataFrame()
 
-                        # 截取故障时段的数据
-                        df['信号时间'] = pd.to_datetime(df['信号时间'])
-                        new_df = df.loc[
-                                 (df.loc[:, '信号时间'] >= stamp_start) & (
-                                         df.loc[:, '信号时间'] < stamp_end), :]
+                            # 截取故障时段的数据
+                            df['信号时间'] = pd.to_datetime(df['信号时间'])
+                            new_df = df.loc[
+                                     (df.loc[:, '信号时间'] >= stamp_start) & (
+                                             df.loc[:, '信号时间'] < stamp_end), :]
 
-                        length_new_df1 = len(new_df)
+                            length_new_df1 = len(new_df)
 
-                        # 去除列名的特殊字符
-                        new_df.rename(columns=lambda col: col.replace('"', ''), inplace=True)
-                        new_df.rename(columns=lambda col: col.replace('/', ''), inplace=True)
+                            # 去除列名的特殊字符
+                            new_df.rename(columns=lambda col: col.replace('"', ''), inplace=True)
+                            new_df.rename(columns=lambda col: col.replace('/', ''), inplace=True)
 
-                        length2 = 0
-                        for times2 in trouble_time_list:
-                            datetime_start1 = times2.split(',')[0]
-                            datetime_end1 = times2.split(',')[1]
-                            length2 += len(
-                                new_df.loc[(new_df.loc[:, '信号时间'] >= datetime_start1) & (
-                                        new_df.loc[:, '信号时间'] < datetime_end1), '信号时间'])
+                            length2 = 0
+                            for times2 in trouble_time_list:
+                                datetime_start1 = times2.split(',')[0]
+                                datetime_end1 = times2.split(',')[1]
+                                length2 += len(
+                                    new_df.loc[(new_df.loc[:, '信号时间'] >= datetime_start1) & (
+                                            new_df.loc[:, '信号时间'] < datetime_end1), '信号时间'])
 
-                        # 输出每次故障的训练数据的信息
-                        record_result['设备名称'] = [equip_info['设备名称'][times]]
-                        record_result['报告发出时间'] = [trouble_time]
-                        record_result['训练集开始时间'] = [stamp_start]
-                        record_result['训练集结束时间'] = [stamp_end]
-                        record_result['故障开始时间'] = [
-                            matching_rows['故障开始时间'].iloc[times]]
-                        record_result['故障结束时间'] = [
-                            matching_rows['故障结束时间'].iloc[times]]
-                        record_result['训练集全部点数'] = [length_new_df1]
-                        record_result['故障时间段点数'] = [length2]
+                            # 输出每次故障的训练数据的信息
+                            record_result['设备名称'] = [equip_info['设备名称'][times]]
+                            record_result['报告发出时间'] = [trouble_time]
+                            record_result['训练集开始时间'] = [stamp_start]
+                            record_result['训练集结束时间'] = [stamp_end]
+                            record_result['故障开始时间'] = [
+                                matching_rows['故障开始时间'].iloc[times]]
+                            record_result['故障结束时间'] = [
+                                matching_rows['故障结束时间'].iloc[times]]
+                            record_result['训练集全部点数'] = [length_new_df1]
+                            record_result['故障时间段点数'] = [length2]
 
-                        tsfresh_feature_generate_path = os.path.join(result_folder,
-                                                                     subfolder['feature_generate_based_on_tsfresh'],
-                                                                     device_name + '(报告发出时间：' + str(trouble_time)[
-                                                                                                      :10] + ')' + "tsfresh特征生成.xlsx")
-                        if not os.path.exists(tsfresh_feature_generate_path):
                             if length2 > 30:
                                 # 将故障时间段设置为1
                                 new_df['故障'] = False
@@ -1412,52 +1408,55 @@ def step_five_feature_generate(read_data_list, filtered_data_list, data, result_
                                         subset='故障时间分组').reset_index()  # 去除合并后的重复行
                                     features_filtered_merge_nodup.drop(columns=['index'], inplace=True)
 
-                                    # tsfresh特征生成
-                                    extracted_features_merge_nodup.to_excel(
-                                        os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh'],
-                                                     device_name + '(报告发出时间：' + str(
-                                                         trouble_time)[
-                                                                                      :10] + ')' + "tsfresh特征生成.xlsx"),
-                                        index=False)
-
-                                    # tsfresh特征选择循环细化
-                                    features_filtered_merge_nodup.to_excel(
-                                        os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh'],
-                                                     device_name + '(报告发出时间：' + str(
-                                                         trouble_time)[
-                                                                                      :10] + ')' + "tsfresh特征选择循环细化.xlsx"),
-                                        index=False)
+                                    # tsfresh特征生成-excel
+                                    excel_buffer = io.BytesIO()
+                                    #
+                                    extracted_features_merge_nodup.to_excel(excel_buffer, index=False)
+                                    zip_file.writestr(
+                                        f"{device_name}(报告发出时间：{str(trouble_time)[:10]})tsfresh特征生成.xlsx",
+                                        excel_buffer.getvalue())
+                                    # tsfresh特征选择循环细化-excel
+                                    excel_buffer = io.BytesIO()
+                                    features_filtered_merge_nodup.to_excel(excel_buffer, index=False)
+                                    zip_file.writestr(
+                                        f"{device_name}(报告发出时间：{str(trouble_time)[:10]})tsfresh特征选择循环细化.xlsx",
+                                        excel_buffer.getvalue())
 
                                     plot_tsfresh_probability_density_image(
                                         os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh']),
                                         device_name,
                                         features_filtered_merge_nodup,
-                                        record_result_all2)
+                                        record_result_all2,
+                                        zip_file)
                                     plot_tsfresh_trend_scatter_image(
                                         os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh']),
                                         device_name,
                                         features_filtered_merge_nodup,
-                                        record_result_all3)
-                        record_result_all.append(record_result)
+                                        record_result_all3,
+                                        zip_file)
 
-            # 每次故障的训练数据的信息.csv
-            if len(record_result_all) != 0:
-                pd.concat(record_result_all).to_csv(
-                    os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh'],
-                                 "每次故障的训练数据的信息.csv"), encoding='utf-8-sig')
+                            record_result_all.append(record_result)
 
-            # 一批设备的特征选择的结果，批量作图，概率密度图，数据区分故障和正常
-            if len(record_result_all2) != 0:
-                pd.concat(record_result_all2).to_csv(
-                    os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh'],
-                                 "特征选择作图的信息_循环优化_概率密度图.csv"),
-                    encoding='utf-8-sig')
-            if len(record_result_all3) != 0:
-                pd.concat(record_result_all3).to_excel(
-                    os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh'],
-                                 "特征选择作图的信息_循环优化_趋势图.xlsx"),
-                    index=False)
-
+                # 每次故障的训练数据的信息.csv
+                if len(record_result_all) != 0:
+                    csv_buffer = io.BytesIO()
+                    pd.concat(record_result_all).to_csv(csv_buffer, index=False)
+                    zip_file.writestr(f'每次故障的训练数据的信息.csv', csv_buffer.getvalue())
+                # 一批设备的特征选择的结果，批量作图，概率密度图，数据区分故障和正常
+                if len(record_result_all2) != 0:
+                    csv_buffer = io.BytesIO()
+                    pd.concat(record_result_all2).to_csv(csv_buffer, index=False)
+                    zip_file.writestr(f'特征选择作图的信息_循环优化_概率密度图.csv', csv_buffer.getvalue())
+                if len(record_result_all3) != 0:
+                    excel_buffer = io.BytesIO()
+                    pd.concat(record_result_all3).to_excel(excel_buffer, index=False)
+                    zip_file.writestr(f'特征选择作图的信息_循环优化_趋势图.xlsx', excel_buffer.getvalue())
+            st.download_button(
+                label=f"下载(tsfresh特征生成)结果",
+                data=zip_buffer.getvalue(),
+                file_name=f'tsfresh特征生成结果.zip',
+                mime='application/zip'
+            )
             st.success("tsfresh特征生成已完成!")
 
     with col2:
@@ -1465,196 +1464,303 @@ def step_five_feature_generate(read_data_list, filtered_data_list, data, result_
         if st.checkbox('ECSM(Exceedance Combination Selection Model)方法',
                        key='ECSM'):
             ecsm_feature_generate_data = filtered_data_list if len(filtered_data_list) != 0 else read_data_list
-            for device_name, df in ecsm_feature_generate_data:
-                # 生成特征组合
-                columns = df.columns[4:].tolist()
-                # 如果‘诊断报告发出的时间’在列表中，则删除
-                if '诊断报告发出的时间' in columns:
-                    columns.remove('诊断报告发出的时间')
+            zip_buffer = io.BytesIO()
+            # 具体的zipfile封装
+            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                for device_name, df in ecsm_feature_generate_data:
+                    # 生成特征组合
+                    columns = df.columns[4:].tolist()
+                    # 如果‘诊断报告发出的时间’在列表中，则删除
+                    if '诊断报告发出的时间' in columns:
+                        columns.remove('诊断报告发出的时间')
 
-                combinations_list = list(combinations(columns, 2))
-                length_df = len(df)
-                df['信号时间'] = pd.to_datetime(df['信号时间'])
+                    combinations_list = list(combinations(columns, 2))
+                    length_df = len(df)
+                    df['信号时间'] = pd.to_datetime(df['信号时间'])
 
-                total_rows = []
-                for j in columns:
-                    min1 = df.loc[:, j].median() / 5
-                    less_than_median_indices = [i for i in df.index if df.loc[i, j] < min1]
-                    total_rows = total_rows + less_than_median_indices
-                unique_list = list(set(total_rows))
+                    total_rows = []
+                    for j in columns:
+                        min1 = df.loc[:, j].median() / 5
+                        less_than_median_indices = [i for i in df.index if df.loc[i, j] < min1]
+                        total_rows = total_rows + less_than_median_indices
+                    unique_list = list(set(total_rows))
 
-                time_columns = [col for col in data.columns if '时间' in col]
-                for col in time_columns:
-                    data[col] = pd.to_datetime(data[col])
+                    time_columns = [col for col in data.columns if '时间' in col]
+                    for col in time_columns:
+                        data[col] = pd.to_datetime(data[col])
 
-                matching_rows = data[data['设备名称'] == device_name]
-                # 将在故障时间段的数据序号添加到列表中
-                fault_time_list = []
-                for times in range(len(matching_rows)):
-                    # 将故障时间段的序列号提取出来
-                    for i in range(len(df)):
-                        if df.loc[i, '信号时间'] >= matching_rows['故障开始时间'].iloc[
-                            times] and \
-                                df.loc[
-                                    i, '信号时间'] <= \
-                                matching_rows['故障结束时间'].iloc[times]:
-                            fault_time_list.append(i)
-
-                    # 将故障时间段从unique_list中删除
-                    if len(fault_time_list) < 200 or (
-                            len(fault_time_list) < (len(unique_list) / 4) and len(
-                        fault_time_list) > 200):
-                        for i in fault_time_list:
-                            if i in unique_list:
-                                unique_list.remove(i)
-
-                df = pd.DataFrame(df.drop(unique_list))
-
-                for combination in combinations_list:
-                    column1 = combination[0]
-                    column2 = combination[1]
-                    if column1[3:] == column2[3:]:
-                        # df[column1 + "+" + column2] = df[column1] + df[column2]
-                        df[column1 + "-" + column2] = df[column1] - df[column2]
-                        df[column1 + " 除 " + column2] = df[column1] / df[column2]
-                        df[column2 + "-" + column1] = df[column2] - df[column1]
-                        df[column2 + " 除 " + column1] = df[column2] / df[column1]
-                    elif column1[3:] == column2[3:]:
-                        # df[column1 + "+" + column2] = df[column1] + df[column2]
-                        df[column1 + "-" + column2] = df[column2] - df[column1]
-                        df[column1 + " 除 " + column2] = df[column1] / df[column2]
-                        df[column2 + "-" + column1] = df[column2] - df[column1]
-                        df[column2 + " 除 " + column1] = df[column2] / df[column1]
-                length = len(df.columns)
-
-                # 设置阈值
-                length1 = 5
-                columns = df.columns[4:].tolist()
-                # 如果‘诊断报告发出的时间’在列表中，则删除
-                if '诊断报告发出的时间' in columns:
-                    columns.remove('诊断报告发出的时间')
-                df.index = range(len(df))
-                for column1 in columns:
-                    median1 = round(df[column1].quantile(0.5), 2)
-                    max1 = round(df[column1].max(), 2)
-                    step1 = (max1 - median1) / length1
-
-                    for a_threshold in range(1, length1):
-                        a_threshold1 = round(median1 + a_threshold * step1, 2)
-                        column1_1 = str(column1 + '≥' + str(a_threshold1))
-                        df[column1_1] = df[column1] >= a_threshold1
-
-                # 设置故障时间段
-                if len(matching_rows) > 0:
+                    matching_rows = data[data['设备名称'] == device_name]
+                    # 将在故障时间段的数据序号添加到列表中
+                    fault_time_list = []
                     for times in range(len(matching_rows)):
-                        # datetime_start = matching_rows['开始时间'].iloc[times]
-                        # datetime_end = matching_rows['结束时间'].iloc[times]
-                        stamp_start = matching_rows['训练集开始时间'].iloc[times]
-                        stamp_end = matching_rows['训练集结束时间'].iloc[times]
-                        test_start = matching_rows['测试集开始时间'].iloc[times]
-                        test_end = matching_rows['测试集结束时间'].iloc[times]
-                        trouble_time = matching_rows['诊断报告发出的时间'].iloc[times]
-                        trouble_name = matching_rows['故障类型'].iloc[times]
+                        # 将故障时间段的序列号提取出来
+                        for i in range(len(df)):
+                            if df.loc[i, '信号时间'] >= matching_rows['故障开始时间'].iloc[
+                                times] and \
+                                    df.loc[
+                                        i, '信号时间'] <= \
+                                    matching_rows['故障结束时间'].iloc[times]:
+                                fault_time_list.append(i)
 
-                        trouble_time_list = []
-                        datetime_start = ''
-                        datetime_end = ''
-                        for times1 in range(len(matching_rows)):
-                            if matching_rows['故障类型'].iloc[times1] == trouble_name:
-                                datetime_start = matching_rows['故障开始时间'].iloc[times1]
-                                datetime_end = matching_rows['故障结束时间'].iloc[times1]
-                                trouble_time_list.append(
-                                    str(datetime_start) + ',' + str(datetime_end))
+                        # 将故障时间段从unique_list中删除
+                        if len(fault_time_list) < 200 or (
+                                len(fault_time_list) < (len(unique_list) / 4) and len(
+                            fault_time_list) > 200):
+                            for i in fault_time_list:
+                                if i in unique_list:
+                                    unique_list.remove(i)
 
-                        # 将在stamp_start和stamp_end之间的数据进行训练，在test_start和test_end之间的数据进行测试
-                        new_df = pd.DataFrame(
-                            df.loc[
-                            (df.loc[:, '信号时间'] >= stamp_start) & (
-                                    df.loc[:, '信号时间'] < stamp_end),
-                            :])
-                        test_df = pd.DataFrame(
-                            df.loc[
-                            (df.loc[:, '信号时间'] >= test_start) & (
-                                    df.loc[:, '信号时间'] < test_end),
-                            :])
+                    df = pd.DataFrame(df.drop(unique_list))
 
-                        if os.path.exists(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],
-                                                       device_name + '(报告发出时间：' + str(
-                                                           trouble_time)[
-                                                                                        :10] + ')' + "特征筛选报告(训练集).xlsx")):
-                            data_old = pd.read_excel(
-                                os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],
-                                             device_name + '(报告发出时间：' + str(
-                                                 trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx"))
+                    for combination in combinations_list:
+                        column1 = combination[0]
+                        column2 = combination[1]
+                        if column1[3:] == column2[3:]:
+                            # df[column1 + "+" + column2] = df[column1] + df[column2]
+                            df[column1 + "-" + column2] = df[column1] - df[column2]
+                            df[column1 + " 除 " + column2] = df[column1] / df[column2]
+                            df[column2 + "-" + column1] = df[column2] - df[column1]
+                            df[column2 + " 除 " + column1] = df[column2] / df[column1]
+                        elif column1[3:] == column2[3:]:
+                            # df[column1 + "+" + column2] = df[column1] + df[column2]
+                            df[column1 + "-" + column2] = df[column2] - df[column1]
+                            df[column1 + " 除 " + column2] = df[column1] / df[column2]
+                            df[column2 + "-" + column1] = df[column2] - df[column1]
+                            df[column2 + " 除 " + column1] = df[column2] / df[column1]
+                    length = len(df.columns)
 
-                            # 创建一个空的list对象
-                            combinations_list_finished = []
-                            for i in range(len(data_old)):
-                                column1 = str(data_old['特征1'].iloc[i]) + '≥' + str(
-                                    data_old['阈值1'].iloc[i])
-                                column2 = str(data_old['特征2'].iloc[i]) + '≥' + str(
-                                    data_old['阈值2'].iloc[i])
-                                column3 = str(data_old['特征3'].iloc[i]) + '≥' + str(
-                                    data_old['阈值3'].iloc[i])
-                                column4 = str(data_old['特征4'].iloc[i]) + '≥' + str(
-                                    data_old['阈值4'].iloc[i])
-                                tuple1 = (column1, column2, column3, column4)
-                                combinations_list_finished.append(tuple1)
+                    # 设置阈值
+                    length1 = 5
+                    columns = df.columns[4:].tolist()
+                    # 如果‘诊断报告发出的时间’在列表中，则删除
+                    if '诊断报告发出的时间' in columns:
+                        columns.remove('诊断报告发出的时间')
+                    df.index = range(len(df))
+                    for column1 in columns:
+                        median1 = round(df[column1].quantile(0.5), 2)
+                        max1 = round(df[column1].max(), 2)
+                        step1 = (max1 - median1) / length1
 
-                        local1 = 0
-                        # excel文档记录
-                        data_save = pd.DataFrame(
-                            columns=['特征1', '阈值1', '特征2', '阈值2', '特征3', '阈值3',
-                                     '特征4',
-                                     '阈值4',
-                                     'TN(无故障，预测为无故障)', 'TP(故障，预测为故障)',
-                                     'FN(故障，预测为无故障)',
-                                     'FP(无故障，预测为故障)', '准确率((TP+TN)/(TP+FN+FP+TN))',
-                                     '精确率(TP/(TP+FP))',
-                                     '召回率(TP/(TP+FN))', '漏报率（FN/(FN+TP)）',
-                                     '真负率（TN/(FP+TN)）',
-                                     'F1 （(2 * Precision * Recall) / ( Precision + Recall))）',
-                                     'MCC (TP * TN - FP * FN) / ( ( ( TP + FP) * (TP + FN)*(TN + FP) * (TN + FN) ) **0.5 )'])
+                        for a_threshold in range(1, length1):
+                            a_threshold1 = round(median1 + a_threshold * step1, 2)
+                            column1_1 = str(column1 + '≥' + str(a_threshold1))
+                            df[column1_1] = df[column1] >= a_threshold1
 
-                        # 生成特征组合
-                        columns = df.columns[length + 1:-1].tolist()
-                        num_combination = 4
+                    # 设置故障时间段
+                    if len(matching_rows) > 0:
+                        for times in range(len(matching_rows)):
+                            # datetime_start = matching_rows['开始时间'].iloc[times]
+                            # datetime_end = matching_rows['结束时间'].iloc[times]
+                            stamp_start = matching_rows['训练集开始时间'].iloc[times]
+                            stamp_end = matching_rows['训练集结束时间'].iloc[times]
+                            test_start = matching_rows['测试集开始时间'].iloc[times]
+                            test_end = matching_rows['测试集结束时间'].iloc[times]
+                            trouble_time = matching_rows['诊断报告发出的时间'].iloc[times]
+                            trouble_name = matching_rows['故障类型'].iloc[times]
 
-                        combinations_list = list(combinations(columns, num_combination))
-                        combination = combinations_list[0]
+                            trouble_time_list = []
+                            datetime_start = ''
+                            datetime_end = ''
+                            for times1 in range(len(matching_rows)):
+                                if matching_rows['故障类型'].iloc[times1] == trouble_name:
+                                    datetime_start = matching_rows['故障开始时间'].iloc[times1]
+                                    datetime_end = matching_rows['故障结束时间'].iloc[times1]
+                                    trouble_time_list.append(
+                                        str(datetime_start) + ',' + str(datetime_end))
 
-                        # 将故障时间段设置为1
-                        new_df['故障'] = 0
-                        datetime_start1 = ''
-                        datetime_end1 = ''
+                            # 将在stamp_start和stamp_end之间的数据进行训练，在test_start和test_end之间的数据进行测试
+                            new_df = pd.DataFrame(
+                                df.loc[
+                                (df.loc[:, '信号时间'] >= stamp_start) & (
+                                        df.loc[:, '信号时间'] < stamp_end),
+                                :])
+                            test_df = pd.DataFrame(
+                                df.loc[
+                                (df.loc[:, '信号时间'] >= test_start) & (
+                                        df.loc[:, '信号时间'] < test_end),
+                                :])
 
-                        for times2 in trouble_time_list:
-                            datetime_start1 = times2.split(',')[0]
-                            datetime_end1 = times2.split(',')[1]
-                            new_df.loc[(new_df.loc[:, '信号时间'] >= datetime_start1) & (
-                                    new_df.loc[:, '信号时间'] < datetime_end1), '故障'] = 1
+                            # ******** 待修改 *************
+                            if os.path.exists(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],device_name + '(报告发出时间：' + str(trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx")):
+                                data_old = pd.read_excel(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],device_name + '(报告发出时间：' + str(trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx"))
 
-                        for combination in combinations_list:
-                            column1 = combination[0]
-                            column2 = combination[1]
-                            column3 = combination[2]
-                            column4 = combination[3]
-                            column1_1 = column1.split('≥')[0]
-                            column2_1 = column2.split('≥')[0]
-                            column3_1 = column3.split('≥')[0]
-                            column4_1 = column4.split('≥')[0]
+                                # 创建一个空的list对象
+                                combinations_list_finished = []
+                                for i in range(len(data_old)):
+                                    column1 = str(data_old['特征1'].iloc[i]) + '≥' + str(
+                                        data_old['阈值1'].iloc[i])
+                                    column2 = str(data_old['特征2'].iloc[i]) + '≥' + str(
+                                        data_old['阈值2'].iloc[i])
+                                    column3 = str(data_old['特征3'].iloc[i]) + '≥' + str(
+                                        data_old['阈值3'].iloc[i])
+                                    column4 = str(data_old['特征4'].iloc[i]) + '≥' + str(
+                                        data_old['阈值4'].iloc[i])
+                                    tuple1 = (column1, column2, column3, column4)
+                                    combinations_list_finished.append(tuple1)
 
-                            # 将变量放入一个列表
-                            variables = [column1_1, column2_1, column3_1, column4_1]
-                            # j += 1
-                            # 检查列表中是否存在重复元素
-                            if len(set(variables)) == len(
-                                    variables) and '故障' not in combination and '预测结果' not in combination:
+                            local1 = 0
+                            # excel文档记录
+                            data_save = pd.DataFrame(
+                                columns=['特征1', '阈值1', '特征2', '阈值2', '特征3', '阈值3',
+                                         '特征4',
+                                         '阈值4',
+                                         'TN(无故障，预测为无故障)', 'TP(故障，预测为故障)',
+                                         'FN(故障，预测为无故障)',
+                                         'FP(无故障，预测为故障)', '准确率((TP+TN)/(TP+FN+FP+TN))',
+                                         '精确率(TP/(TP+FP))',
+                                         '召回率(TP/(TP+FN))', '漏报率（FN/(FN+TP)）',
+                                         '真负率（TN/(FP+TN)）',
+                                         'F1 （(2 * Precision * Recall) / ( Precision + Recall))）',
+                                         'MCC (TP * TN - FP * FN) / ( ( ( TP + FP) * (TP + FN)*(TN + FP) * (TN + FN) ) **0.5 )'])
 
-                                new_df['预测结果'] = (new_df[column1] & new_df[column2]) | (
-                                        new_df[column3] & new_df[column4])
-                                new_df['预测结果'] = new_df['预测结果'].map({True: 1, False: 0})
-                                cm = confusion_matrix(new_df['故障'], new_df['预测结果'])
+                            # 生成特征组合
+                            columns = df.columns[length + 1:-1].tolist()
+                            num_combination = 4
+
+                            combinations_list = list(combinations(columns, num_combination))
+                            combination = combinations_list[0]
+
+                            # 将故障时间段设置为1
+                            new_df['故障'] = 0
+                            datetime_start1 = ''
+                            datetime_end1 = ''
+
+                            for times2 in trouble_time_list:
+                                datetime_start1 = times2.split(',')[0]
+                                datetime_end1 = times2.split(',')[1]
+                                new_df.loc[(new_df.loc[:, '信号时间'] >= datetime_start1) & (
+                                        new_df.loc[:, '信号时间'] < datetime_end1), '故障'] = 1
+
+                            for combination in combinations_list:
+                                column1 = combination[0]
+                                column2 = combination[1]
+                                column3 = combination[2]
+                                column4 = combination[3]
+                                column1_1 = column1.split('≥')[0]
+                                column2_1 = column2.split('≥')[0]
+                                column3_1 = column3.split('≥')[0]
+                                column4_1 = column4.split('≥')[0]
+
+                                # 将变量放入一个列表
+                                variables = [column1_1, column2_1, column3_1, column4_1]
+                                # j += 1
+                                # 检查列表中是否存在重复元素
+                                if len(set(variables)) == len(
+                                        variables) and '故障' not in combination and '预测结果' not in combination:
+
+                                    new_df['预测结果'] = (new_df[column1] & new_df[column2]) | (
+                                            new_df[column3] & new_df[column4])
+                                    new_df['预测结果'] = new_df['预测结果'].map({True: 1, False: 0})
+                                    cm = confusion_matrix(new_df['故障'], new_df['预测结果'])
+                                    total = cm.sum()
+                                    TN = cm[0][0]
+                                    TP = cm[1][1]
+                                    FN = cm[0][1]
+                                    FP = cm[1][0]
+
+                                    Accuracy = round((TP + TN) / total, 4)
+                                    Precision = round(TP / (FP + TP), 4)
+                                    Recall = round(TP / (FN + TP), 4)
+                                    Miss_rate = round(FN / (FN + TP), 4)
+                                    Specificity = round(TN / (TN + FP), 4)
+                                    if (Precision + Recall) == 0:
+                                        F1 = 0
+                                    else:
+                                        F1 = round((2 * Precision * Recall) / (Precision + Recall),
+                                                   4)
+                                    if (((TP + FP) * (TP + FN) * (TN + FP) * (
+                                            TN + FN)) ** 0.5) == 0:
+                                        MCC = 0
+                                    else:
+                                        MCC = round((TP * TN - FP * FN) / (
+                                                ((TP + FP) * (TP + FN) * (TN + FP) * (
+                                                        TN + FN)) ** 0.5),
+                                                    4)
+
+                                    # 将混淆矩阵添加到 Excel 文档中
+                                    local1 += 1
+                                    new_row = {'特征1': column1.split('≥')[0],
+                                               '阈值1': column1.split('≥')[1],
+                                               '特征2': column2.split('≥')[0],
+                                               '阈值2': column2.split('≥')[1],
+                                               '特征3': column3.split('≥')[0],
+                                               '阈值3': column3.split('≥')[1],
+                                               '特征4': column4.split('≥')[0],
+                                               '阈值4': column4.split('≥')[1],
+                                               'TN(无故障，预测为无故障)': TN,
+                                               'TP(故障，预测为故障)': TP,
+                                               'FN(故障，预测为无故障)': FN,
+                                               'FP(无故障，预测为故障)': FP,
+                                               '准确率((TP+TN)/(TP+FN+FP+TN))': Accuracy,
+                                               '精确率(TP/(TP+FP))': Precision,
+                                               '召回率(TP/(TP+FN))': Recall,
+                                               '漏报率（FN/(FN+TP)）': Miss_rate,
+                                               '真负率（TN/(FP+TN)）': Specificity,
+                                               'F1 （(2 * Precision * Recall) / ( Precision + Recall))）': F1,
+                                               'MCC (TP * TN - FP * FN) / ( ( ( TP + FP) * (TP + FN)*(TN + FP) * (TN + FN) ) **0.5 )': MCC}
+                                    # data_save = data_save.append(new_row, ignore_index=True)
+                                    data_save = pd.concat([data_save, pd.DataFrame(new_df)], ignore_index=True)
+
+                                    gc.collect()
+                                    if (local1 % 10000) == 1:
+                                        # 将data_save和data_old合并
+                                        if 'data_old' in locals():
+                                            data_save1 = pd.concat([data_save, data_old],
+                                                                   ignore_index=True)
+                                        else:
+                                            data_save1 = data_save
+                                        excel_buffer = io.BytesIO()
+                                        data_save1.to_excel(excel_buffer,index=False)
+                                        #  f"{device_name}(报告发出时间：{str(trouble_time)[:10]})tsfresh特征选择循环细化.xlsx",
+                                        zip_file.writestr(
+                                            f"{device_name}(报告发出时间：{str(trouble_time)[:10]})特征筛选报告(训练集).xlsx",
+                                            excel_buffer.getvalue())
+
+                            # 保存 Word 文档
+                            excel_buffer = io.BytesIO()
+                            data_save1.to_excel(excel_buffer,index=False)
+                            zip_file.writestr(
+                                f"{device_name}(报告发出时间：{str(trouble_time)[:10]})特征筛选报告(训练集).xlsx",
+                                excel_buffer.getvalue())
+                            data1 = data_save1.copy()
+
+                            data1_unique = data1.sort_values(
+                                by='F1 （(2 * Precision * Recall) / ( Precision + Recall))）',
+                                ascending=False).drop_duplicates(subset=['特征1'])
+                            data1_unique = data1_unique.drop_duplicates(subset=['特征2'])
+                            data1_unique = data1_unique.drop_duplicates(subset=['特征3'])
+                            data1_unique = data1_unique.drop_duplicates(subset=['特征4'])
+                            data1_unique.index = range(len(data1_unique))
+
+                            for i in range(300):
+                                column1 = data1_unique['特征1'][i] + "≥" + str(
+                                    data1_unique['阈值1'][i])
+                                column2 = data1_unique['特征2'][i] + "≥" + str(
+                                    data1_unique['阈值2'][i])
+                                column3 = data1_unique['特征3'][i] + "≥" + str(
+                                    data1_unique['阈值3'][i])
+                                column4 = data1_unique['特征4'][i] + "≥" + str(
+                                    data1_unique['阈值4'][i])
+
+                                for times2 in trouble_time_list:
+                                    datetime_start1 = times2.split(',')[0]
+                                    datetime_end1 = times2.split(',')[1]
+                                    test_df.loc[(test_df.loc[:, '信号时间'] >= datetime_start1) & (
+                                            test_df.loc[:, '信号时间'] < datetime_end1), '故障'] = 1
+                                    # print("故障时间：", datetime_start1, datetime_end1)
+
+                                test_df['预测结果'] = ((test_df[column1] >= data1_unique['阈值1'][
+                                    i]) & (
+                                                               test_df[column2] >=
+                                                               data1_unique['阈值2'][i])) | (
+                                                              (test_df[column3] >=
+                                                               data1_unique['阈值3'][
+                                                                   i]) & (
+                                                                      test_df[column4] >=
+                                                                      data1_unique['阈值4'][i]))
+                                test_df['预测结果'] = test_df['预测结果'].map({True: 1, False: 0})
+
+                                cm = confusion_matrix(test_df['故障'], test_df['预测结果'])
                                 total = cm.sum()
                                 TN = cm[0][0]
                                 TP = cm[1][1]
@@ -1669,208 +1775,120 @@ def step_five_feature_generate(read_data_list, filtered_data_list, data, result_
                                 if (Precision + Recall) == 0:
                                     F1 = 0
                                 else:
-                                    F1 = round((2 * Precision * Recall) / (Precision + Recall),
-                                               4)
-                                if (((TP + FP) * (TP + FN) * (TN + FP) * (
-                                        TN + FN)) ** 0.5) == 0:
+                                    F1 = round((2 * Precision * Recall) / (Precision + Recall), 4)
+                                if (((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) ** 0.5) == 0:
                                     MCC = 0
                                 else:
                                     MCC = round((TP * TN - FP * FN) / (
-                                            ((TP + FP) * (TP + FN) * (TN + FP) * (
-                                                    TN + FN)) ** 0.5),
+                                            ((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) ** 0.5),
                                                 4)
 
-                                # 将混淆矩阵添加到 Excel 文档中
-                                local1 += 1
-                                new_row = {'特征1': column1.split('≥')[0],
-                                           '阈值1': column1.split('≥')[1],
-                                           '特征2': column2.split('≥')[0],
-                                           '阈值2': column2.split('≥')[1],
-                                           '特征3': column3.split('≥')[0],
-                                           '阈值3': column3.split('≥')[1],
-                                           '特征4': column4.split('≥')[0],
-                                           '阈值4': column4.split('≥')[1],
-                                           'TN(无故障，预测为无故障)': TN,
-                                           'TP(故障，预测为故障)': TP,
-                                           'FN(故障，预测为无故障)': FN,
-                                           'FP(无故障，预测为故障)': FP,
-                                           '准确率((TP+TN)/(TP+FN+FP+TN))': Accuracy,
-                                           '精确率(TP/(TP+FP))': Precision,
-                                           '召回率(TP/(TP+FN))': Recall,
-                                           '漏报率（FN/(FN+TP)）': Miss_rate,
-                                           '真负率（TN/(FP+TN)）': Specificity,
-                                           'F1 （(2 * Precision * Recall) / ( Precision + Recall))）': F1,
-                                           'MCC (TP * TN - FP * FN) / ( ( ( TP + FP) * (TP + FN)*(TN + FP) * (TN + FN) ) **0.5 )': MCC}
-                                # data_save = data_save.append(new_row, ignore_index=True)
-                                data_save = pd.concat([data_save, pd.DataFrame(new_df)], ignore_index=True)
+                                if '测试集TN' not in data1_unique.columns:
+                                    data1_unique['测试集TN'] = None
+                                    data1_unique['测试集TP'] = None
+                                    data1_unique['测试集FN'] = None
+                                    data1_unique['测试集FP'] = None
+                                    data1_unique['测试集准确率'] = None
+                                    data1_unique['测试集精确率'] = None
+                                    data1_unique['测试集召回率'] = None
+                                    data1_unique['测试集漏报率'] = None
+                                    data1_unique['测试集真负率'] = None
+                                    data1_unique['测试集F1'] = None
+                                    data1_unique['测试集MCC'] = None
+                                data1_unique['测试集TN'][i] = TN
+                                data1_unique['测试集TP'][i] = TP
+                                data1_unique['测试集FN'][i] = FN
+                                data1_unique['测试集FP'][i] = FP
+                                data1_unique['测试集准确率'][i] = Accuracy
+                                data1_unique['测试集精确率'][i] = Precision
+                                data1_unique['测试集召回率'][i] = Recall
+                                data1_unique['测试集漏报率'][i] = Miss_rate
+                                data1_unique['测试集真负率'][i] = Specificity
+                                data1_unique['测试集F1'][i] = F1
+                                data1_unique['测试集MCC'][i] = MCC
 
-                                gc.collect()
-                                if (local1 % 10000) == 1:
-                                    # 将data_save和data_old合并
-                                    if 'data_old' in locals():
-                                        data_save1 = pd.concat([data_save, data_old],
-                                                               ignore_index=True)
-                                    else:
-                                        data_save1 = data_save
-                                    data_save1.to_excel(
-                                        os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],
-                                                     device_name + '(报告发出时间：' + str(
-                                                         trouble_time)[
-                                                                                      :10] + ')' + "特征筛选报告(训练集).xlsx"),
-                                        index=False)
-                        # 保存 Word 文档
-                        data_save1.to_excel(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],
-                                                         device_name + '(报告发出时间：' + str(
-                                                             trouble_time)[
-                                                                                          :10] + ')' + "特征筛选报告(训练集).xlsx"),
-                                            index=False)
-                        data1 = data_save1.copy()
+                            data1_unique = data1_unique.iloc[:, :300]
+                            excel_buffer = io.BytesIO()
+                            data1_unique.to_excel(excel_buffer, index=False)
+                            zip_file.writestr(
+                                f"{device_name}(报告发出时间：{str(trouble_time)[:10]})特征筛选报告(训练集+测试集).xlsx",
+                                excel_buffer.getvalue())
 
-                        data1_unique = data1.sort_values(
-                            by='F1 （(2 * Precision * Recall) / ( Precision + Recall))）',
-                            ascending=False).drop_duplicates(subset=['特征1'])
-                        data1_unique = data1_unique.drop_duplicates(subset=['特征2'])
-                        data1_unique = data1_unique.drop_duplicates(subset=['特征3'])
-                        data1_unique = data1_unique.drop_duplicates(subset=['特征4'])
-                        data1_unique.index = range(len(data1_unique))
-
-                        for i in range(300):
-                            column1 = data1_unique['特征1'][i] + "≥" + str(
-                                data1_unique['阈值1'][i])
-                            column2 = data1_unique['特征2'][i] + "≥" + str(
-                                data1_unique['阈值2'][i])
-                            column3 = data1_unique['特征3'][i] + "≥" + str(
-                                data1_unique['阈值3'][i])
-                            column4 = data1_unique['特征4'][i] + "≥" + str(
-                                data1_unique['阈值4'][i])
-
-                            for times2 in trouble_time_list:
-                                datetime_start1 = times2.split(',')[0]
-                                datetime_end1 = times2.split(',')[1]
-                                test_df.loc[(test_df.loc[:, '信号时间'] >= datetime_start1) & (
-                                        test_df.loc[:, '信号时间'] < datetime_end1), '故障'] = 1
-                                # print("故障时间：", datetime_start1, datetime_end1)
-
-                            test_df['预测结果'] = ((test_df[column1] >= data1_unique['阈值1'][
-                                i]) & (
-                                                           test_df[column2] >=
-                                                           data1_unique['阈值2'][i])) | (
-                                                          (test_df[column3] >=
-                                                           data1_unique['阈值3'][
-                                                               i]) & (
-                                                                  test_df[column4] >=
-                                                                  data1_unique['阈值4'][i]))
-                            test_df['预测结果'] = test_df['预测结果'].map({True: 1, False: 0})
-
-                            cm = confusion_matrix(test_df['故障'], test_df['预测结果'])
-                            total = cm.sum()
-                            TN = cm[0][0]
-                            TP = cm[1][1]
-                            FN = cm[0][1]
-                            FP = cm[1][0]
-
-                            Accuracy = round((TP + TN) / total, 4)
-                            Precision = round(TP / (FP + TP), 4)
-                            Recall = round(TP / (FN + TP), 4)
-                            Miss_rate = round(FN / (FN + TP), 4)
-                            Specificity = round(TN / (TN + FP), 4)
-                            if (Precision + Recall) == 0:
-                                F1 = 0
-                            else:
-                                F1 = round((2 * Precision * Recall) / (Precision + Recall), 4)
-                            if (((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) ** 0.5) == 0:
-                                MCC = 0
-                            else:
-                                MCC = round((TP * TN - FP * FN) / (
-                                        ((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) ** 0.5),
-                                            4)
-
-                            if '测试集TN' not in data1_unique.columns:
-                                data1_unique['测试集TN'] = None
-                                data1_unique['测试集TP'] = None
-                                data1_unique['测试集FN'] = None
-                                data1_unique['测试集FP'] = None
-                                data1_unique['测试集准确率'] = None
-                                data1_unique['测试集精确率'] = None
-                                data1_unique['测试集召回率'] = None
-                                data1_unique['测试集漏报率'] = None
-                                data1_unique['测试集真负率'] = None
-                                data1_unique['测试集F1'] = None
-                                data1_unique['测试集MCC'] = None
-                            data1_unique['测试集TN'][i] = TN
-                            data1_unique['测试集TP'][i] = TP
-                            data1_unique['测试集FN'][i] = FN
-                            data1_unique['测试集FP'][i] = FP
-                            data1_unique['测试集准确率'][i] = Accuracy
-                            data1_unique['测试集精确率'][i] = Precision
-                            data1_unique['测试集召回率'][i] = Recall
-                            data1_unique['测试集漏报率'][i] = Miss_rate
-                            data1_unique['测试集真负率'][i] = Specificity
-                            data1_unique['测试集F1'][i] = F1
-                            data1_unique['测试集MCC'][i] = MCC
-
-                        data1_unique = data1_unique.iloc[:, :300]
-                        data1_unique.to_excel(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],
-                                                           device_name + '(报告发出时间：' + str(
-                                                               trouble_time)[
-                                                                                            :10] + ')' + "特征筛选报告(训练集+测试集).xlsx"),
-                                              index=False)
+            st.download_button(
+                label=f"下载(ECSM特征生成)结果",
+                data=zip_buffer.getvalue(),
+                file_name=f'ECSM特征生成结果.zip',
+                mime='application/zip'
+            )
             st.success("ECSM特征生成已完成!")
 
 
-def step_six_feature_selection(result_folder, subfolders):
+def step_six_feature_selection():
     # 步骤6:特征选择
     st.subheader("步骤6:特征选择")
+
+    st.info("ℹ️ 请上传文件以进行检查。")
     second_uploaded_file = st.file_uploader(
         "# 读入振动信号的FFT特征参数或FFT特征参数的tsfresh生成的特征", type=["xlsx"],
         key='read_generated_features', accept_multiple_files=False)
 
-    if second_uploaded_file is not None:
-        df_generated, df_generated_copy, y = data_read_and_process(second_uploaded_file)
-        df_noNA, df_standard, df_MinMax, df_normalize, df_binary = data_preprocessing(df_generated_copy)
-        feature_importance_estimate(df_generated_copy, df_noNA, y, result_folder, subfolders)
-        feature_selection_col1, feature_selection_col2, feature_selection_col3 = st.columns(3)
-        # 过滤法
-        with feature_selection_col1:
-            if st.checkbox('过滤法', key='过滤法'):
-                if st.checkbox('filter-方差选择法', key='filter-方差选择法'):
-                    feature_selection_variance(df_generated_copy, df_noNA, result_folder, subfolders)
-                if st.checkbox('filter-卡方检验', key=f'filter-卡方检验'):
-                    feature_selection_chi2_test(df_generated_copy, df_MinMax, y, result_folder, subfolders)
-                if st.checkbox('filter-相关系数法', key=f'filter-相关系数法'):
-                    feature_selection_correlation_coefficient(df_generated_copy, y, result_folder, subfolders)
-        # 包装法
-        with feature_selection_col2:
-            if st.checkbox('包装法', key=f'包装法'):
-                if st.checkbox('wrapper - RFE递归特征消除法',
-                               key=f'wrapper - RFE递归特征消除法'):
-                    feature_selection_RFE(df_generated_copy, df_noNA, y, result_folder, subfolders)
-        # 嵌入法
-        with feature_selection_col3:
-            if st.checkbox('嵌入法', key=f'嵌入法'):
-                if st.checkbox('embedded - 基于L1惩罚项的特征选择法',
-                               key=f'embedded - 基于L1惩罚项的特征选择法'):
-                    feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y, result_folder, subfolders)
-                if st.checkbox('embedded - 结合L1和L2惩罚项的特征选择法',
-                               key=f'embedded - 结合L1和L2惩罚项的特征选择法'):
-                    feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y, result_folder,
-                                                             subfolders)
-                if st.checkbox('embedded - 基于树模型的特征选择法',
-                               key=f'embedded - 基于树模型的特征选择法'):
-                    feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y, result_folder,
-                                                             subfolders)
-                if st.checkbox('结合SVM和L1惩罚项的特征选择',
-                               key=f'结合SVM和L1惩罚项的特征选择'):
-                    feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y, result_folder,
-                                                               subfolders)
-                if st.checkbox('LASSO', key=f'结合LASSO的特征选择'):
-                    feature_selection_embedded_based_on_Lasso(df_generated_copy, y, result_folder, subfolders)
+    # 文件格式检查
+    if second_uploaded_file:
+        second_file_name = second_uploaded_file.name.lower()
+        # 检查是否包含故障标记.xlsx
+        has_excel = "故障标记.xlsx" in second_file_name
+
+        # 判断是否同时包含 CSV 和 Excel
+        if not has_excel:
+            st.error("❌ 上传文件不对！请确保上传的数据文件后缀名为'故障标记.xlsx'")
+        else:
+            st.success("✅ 文件格式正确！")
+            if second_uploaded_file is not None:
+                df_generated, df_generated_copy, y = data_read_and_process(second_uploaded_file)
+                df_noNA, df_standard, df_MinMax, df_normalize, df_binary = data_preprocessing(df_generated_copy)
+                feature_importance_estimate(df_generated_copy, df_noNA, y)
+                feature_selection_col1, feature_selection_col2, feature_selection_col3 = st.columns(3)
+                # 过滤法
+                with feature_selection_col1:
+                    if st.checkbox('过滤法', key='过滤法'):
+                        if st.checkbox('filter-方差选择法', key='filter-方差选择法'):
+                            feature_selection_variance(df_generated_copy, df_noNA)
+                        if st.checkbox('filter-卡方检验', key=f'filter-卡方检验'):
+                            feature_selection_chi2_test(df_generated_copy, df_MinMax, y)
+                        if st.checkbox('filter-相关系数法', key=f'filter-相关系数法'):
+                            feature_selection_correlation_coefficient(df_generated_copy, y)
+                # 包装法
+                with feature_selection_col2:
+                    if st.checkbox('包装法', key=f'包装法'):
+                        if st.checkbox('wrapper - RFE递归特征消除法',
+                                       key=f'wrapper - RFE递归特征消除法'):
+                            feature_selection_RFE(df_generated_copy, df_noNA, y)
+                # 嵌入法
+                with feature_selection_col3:
+                    if st.checkbox('嵌入法', key=f'嵌入法'):
+                        if st.checkbox('embedded - 基于L1惩罚项的特征选择法',
+                                       key=f'embedded - 基于L1惩罚项的特征选择法'):
+                            feature_selection_embedded_based_on_L1(df_generated_copy, df_noNA, y)
+                        if st.checkbox('embedded - 结合L1和L2惩罚项的特征选择法',
+                                       key=f'embedded - 结合L1和L2惩罚项的特征选择法'):
+                            feature_selection_embedded_based_on_L1L2(df_generated_copy, df_noNA, y)
+                        if st.checkbox('embedded - 基于树模型的特征选择法',
+                                       key=f'embedded - 基于树模型的特征选择法'):
+                            feature_selection_embedded_based_on_GBDT(df_generated_copy, df_noNA, y
+                                                                     )
+                        if st.checkbox('结合SVM和L1惩罚项的特征选择',
+                                       key=f'结合SVM和L1惩罚项的特征选择'):
+                            feature_selection_embedded_based_on_SVM_L1(df_generated_copy, df_noNA, y
+                                                                       )
+                        if st.checkbox('LASSO', key=f'结合LASSO的特征选择'):
+                            feature_selection_embedded_based_on_Lasso(df_generated_copy, y)
 
 
 def plot_tsfresh_probability_density_image(data_folder,
                                            device_name,
                                            features_filtered_merge_nodup,
-                                           record_result_all2):
+                                           record_result_all2,
+                                           zip_file):
     """
     画tsfresh的概率密度图
     :return:
@@ -1919,17 +1937,18 @@ def plot_tsfresh_probability_density_image(data_folder,
             plt.xlabel('Value', fontsize=20)
             plt.ylabel('Density', fontsize=20)
             plt.xticks(rotation=30)
-            image_file = os.path.join(data_folder,
-                                      device_name + '概率密度图',
-                                      column + '.png')
-            plt.savefig(image_file, dpi=300)
+
+            img_buffer = BytesIO()
+            plt.savefig(img_buffer, dpi=300)
+            zip_file.writestr(f'{device_name}_概率密度图_{column}.png', img_buffer.getvalue())
             plt.close()
 
 
 def plot_tsfresh_trend_scatter_image(data_folder,
                                      device_name,
                                      features_filtered_merge_nodup,
-                                     record_result_all3):
+                                     record_result_all3,
+                                     zip_file):
     """
     一批设备的特征选择的结果，批量作图，散点图，趋势图
     :param data_folder:
@@ -1983,10 +2002,11 @@ def plot_tsfresh_trend_scatter_image(data_folder,
             plt.xlabel('time', fontsize=20)
             plt.ylabel('value', fontsize=20)
             plt.xticks(rotation=30)
-            image_file = os.path.join(tsfresh_trend_path, column + '.png')
-            plt.savefig(image_file, dpi=300)
-            plt.close()
+            img_buffer = BytesIO()
+            plt.savefig(img_buffer, dpi=300)
+            zip_file.writestr(f'{device_name}_{column}.png', img_buffer.getvalue())
 
+            plt.close()
 
 def main():
     # 侧边栏-特征工程6大步骤
@@ -2007,52 +2027,20 @@ def main():
         data_col = df.shape[1]
         st.write(f"{device_name}_数据预览(数据行数:{data_row},数据列数:{data_col}):", df.head())  # 显示数据的前5行
 
-        # 创建保存全部结果的总文件夹result
-        result_folder = './result'
-        # 创建结果文件夹
-        os.makedirs(result_folder, exist_ok=True)
-
-        # 定义各个子文件夹路径
-        subfolders = {
-            'trend_dir': '趋势图',
-            'hist_dir': '直方图',
-            'scatter_dir': '散点图',
-            'box_dir': '箱型图',
-            'cluster_dir': '聚类结果',
-            'feature_generate_based_on_tsfresh': '特征生成结果/tsfresh',
-            'feature_generate_based_on_ECSM': '特征生成结果/ECSM',
-            'filter_variance_selection_folder': '特征选择结果/过滤法-方差选择法',
-            'filter_chi2_estimator_folder': '特征选择结果/过滤法-卡方检验',
-            'filter_correlation_coefficient_folder': '特征选择结果/过滤法-相关系数',
-            'filter_RFE_folder': '特征选择结果/包装法-RFE递归消除法',
-            'filter_based_on_L1_folder': '特征选择结果/嵌入法-基于L1惩罚项的特征选择法',
-            'filter_based_on_L1L2_folder': '特征选择结果/嵌入法-结合L1和L2惩罚项的特征选择法',
-            'filter_base_on_GBDT_folder': '特征选择结果/嵌入法-基于树模型的特征选择法',
-            'filter_based_on_SVM_L1_folder': '特征选择结果/嵌入法-结合SVM和L1惩罚项的特征选择',
-            'filter_based_on_Lasso_folder': '特征选择结果/嵌入法-LASSO',
-            'feature_importance_folder': '特征选择结果/特征重要性'
-        }
-
-        # 循环创建子文件夹
-        for folder_name, folder_path in subfolders.items():
-            full_path = os.path.join(result_folder, folder_path)
-            if folder_path not in ['趋势图', '散点图', '直方图', '箱型图']:
-                os.makedirs(full_path, exist_ok=True)
-
         # 步骤2:数据可视化
-        step_two_data_visualization(read_data_list, result_folder, subfolders)
+        step_two_data_visualization(read_data_list)
 
         # 步骤3：数据清洗
-        filtered_data_list = step_three_data_filter(read_data_list, result_folder)
+        filtered_data_list = step_three_data_filter(read_data_list)
 
         # 步骤4:工况分割
-        step_four_condition_split(read_data_list, filtered_data_list, result_folder, subfolders)
+        step_four_condition_split(read_data_list, filtered_data_list)
 
         # 步骤5:特征生成
-        step_five_feature_generate(read_data_list, filtered_data_list, data, result_folder, subfolders)
+        step_five_feature_generate(read_data_list, filtered_data_list, data)
 
         # 步骤6:特征选择
-        step_six_feature_selection(result_folder, subfolders)
+        step_six_feature_selection()
 
 
 if __name__ == '__main__':
