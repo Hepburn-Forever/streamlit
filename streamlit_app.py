@@ -1164,7 +1164,6 @@ def step_four_condition_split(read_data_list, filtered_data_list):
             st.success(f'层次聚类已完成!')
 
 
-@calculate_runtime
 def step_five_feature_generate(read_data_list, filtered_data_list, data):
     # 步骤5：特征生成
     st.subheader("步骤5:特征生成")
@@ -1423,13 +1422,11 @@ def step_five_feature_generate(read_data_list, filtered_data_list, data):
                                         excel_buffer.getvalue())
 
                                     plot_tsfresh_probability_density_image(
-                                        os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh']),
                                         device_name,
                                         features_filtered_merge_nodup,
                                         record_result_all2,
                                         zip_file)
                                     plot_tsfresh_trend_scatter_image(
-                                        os.path.join(result_folder, subfolder['feature_generate_based_on_tsfresh']),
                                         device_name,
                                         features_filtered_merge_nodup,
                                         record_result_all3,
@@ -1581,8 +1578,8 @@ def step_five_feature_generate(read_data_list, filtered_data_list, data):
                                 :])
 
                             # ******** 待修改 *************
-                            if os.path.exists(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],device_name + '(报告发出时间：' + str(trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx")):
-                                data_old = pd.read_excel(os.path.join(result_folder, subfolder['feature_generate_based_on_ECSM'],device_name + '(报告发出时间：' + str(trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx"))
+                            if os.path.exists(os.path.join(device_name + '(报告发出时间：' + str(trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx")):
+                                data_old = pd.read_excel(os.path.join(device_name + '(报告发出时间：' + str(trouble_time)[:10] + ')' + "特征筛选报告(训练集).xlsx"))
 
                                 # 创建一个空的list对象
                                 combinations_list_finished = []
@@ -1884,8 +1881,7 @@ def step_six_feature_selection():
                             feature_selection_embedded_based_on_Lasso(df_generated_copy, y)
 
 
-def plot_tsfresh_probability_density_image(data_folder,
-                                           device_name,
+def plot_tsfresh_probability_density_image(device_name,
                                            features_filtered_merge_nodup,
                                            record_result_all2,
                                            zip_file):
@@ -1902,8 +1898,6 @@ def plot_tsfresh_probability_density_image(data_folder,
     record_result_all2.append(record_result)
     if col_count > 5:
         # 概率密度图
-        probability_density_path = os.path.join(data_folder, device_name + '概率密度图')
-        os.makedirs(probability_density_path, exist_ok=True)
         fig = plt.figure(figsize=(30, 20))
 
         # 去除列名的特殊字符
@@ -1944,8 +1938,7 @@ def plot_tsfresh_probability_density_image(data_folder,
             plt.close()
 
 
-def plot_tsfresh_trend_scatter_image(data_folder,
-                                     device_name,
+def plot_tsfresh_trend_scatter_image(device_name,
                                      features_filtered_merge_nodup,
                                      record_result_all3,
                                      zip_file):
@@ -1969,8 +1962,6 @@ def plot_tsfresh_trend_scatter_image(data_folder,
 
     if col_count > 5:
         # 创建文件夹
-        tsfresh_trend_path = os.path.join(data_folder, device_name + '趋势图')
-        os.makedirs(tsfresh_trend_path, exist_ok=True)
         fig = plt.figure(figsize=(30, 20))
 
         # 去除列名的特殊字符
